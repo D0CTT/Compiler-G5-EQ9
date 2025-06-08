@@ -88,61 +88,61 @@ public class CodeGen {
         out.println("    CP B");
 
         if (jumpIfTrue) {
-        switch (c.op) {
-            case "==":
-                out.println("    JP NZ, " + label); // z != A → salto
-                break;
-            case "!=":
-                out.println("    JP Z, " + label);  // z == A → salto
-                break;
-            case ">":
-                out.println("    JP NC, " + label); // z <= A → salto
-                out.println("    JP Z, " + label);  // z == A → salto
-                break;
-            case "<":
-                out.println("    JP C, " + label);  // z > A → no carry → salto
-                out.println("    JP Z, " + label);  // z == A → también salto
-                break;
-            case ">=":
-                int ge = labelCount++;
-                out.println("    JP Z, _ok" + ge);   // z == A
-                out.println("    JP C, _ok" + ge);   // z > A
-                out.println("    JP " + label);      // z < A → salto
-                out.println("_ok" + ge + ":");
-                break;
-            case "<=":
-                out.println("    JP C, " + label);  // Salta si z > A
-                break;
-            default:
-                throw new RuntimeException("Unknown comparison operator: " + c.op);
-        }
+            switch (c.op) {
+                case "==":
+                    out.println("    JP NZ, " + label); // z != A → salto
+                    break;
+                case "!=":
+                    out.println("    JP Z, " + label);  // z == A → salto
+                    break;
+                case ">":
+                    out.println("    JP NC, " + label); // z <= A → salto
+                    out.println("    JP Z, " + label);  // z == A → salto
+                    break;
+                case "<":
+                    out.println("    JP C, " + label);  // z > A → no carry → salto
+                    out.println("    JP Z, " + label);  // z == A → también salto
+                    break;
+                case ">=":
+                    int ge = labelCount++;
+                    out.println("    JP Z, _ok" + ge);   // z == A
+                    out.println("    JP C, _ok" + ge);   // z > A
+                    out.println("    JP " + label);      // z < A → salto
+                    out.println("_ok" + ge + ":");
+                    break;
+                case "<=":
+                    out.println("    JP C, " + label);  // Salta si z > A
+                    break;
+                default:
+                    throw new RuntimeException("Unknown comparison operator: " + c.op);
+            }
 
-    } else {
+        } else {
         // invertir lógica de salto
-        switch (c.op) {
-            case "==":
-                out.println("    JP NZ, " + label);
-                break;
-            case "!=":
-                out.println("    JP Z, " + label);
-                break;
-            case ">":
-                out.println("    JP Z, " + label);
-                out.println("    JP C, " + label);
-                break;
-            case "<":
-                out.println("    JP Z, " + label);
-                out.println("    JP NC, " + label);
-                break;
-            case ">=":
-                out.println("    JP C, " + label);
-                break;
-            case "<=":
-                out.println("    JP NC, " + label);
-                break;
-            default:
-                throw new RuntimeException("Unknown comparison operator: " + c.op);
+            switch (c.op) {
+                case "==":
+                    out.println("    JP NZ, " + label);
+                    break;
+                case "!=":
+                    out.println("    JP Z, " + label);
+                    break;
+                case ">":
+                    out.println("    JP Z, " + label);
+                    out.println("    JP C, " + label);
+                    break;
+                case "<":
+                    out.println("    JP Z, " + label);
+                    out.println("    JP NC, " + label);
+                    break;
+                case ">=":
+                    out.println("    JP C, " + label);
+                    break;
+                case "<=":
+                    out.println("    JP NC, " + label);
+                    break;
+                default:
+                    throw new RuntimeException("Unknown comparison operator: " + c.op);
+            }
         }
     }
-}
 }
